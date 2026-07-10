@@ -4,8 +4,9 @@ description: >-
   Make a polished promo / ad / launch video for an app or product — for FREE,
   locally, with no paid AI-video credits — using HeyGen's open-source
   HyperFrames (write HTML + GSAP, render to MP4). Use this whenever the user
-  wants an ad video, promo, app-store preview, reel, launch/teaser video, or
-  "banao ek ad/video" for an app like Soon or SharePoster. It encodes the
+  wants an ad video, promo, app-store preview, reel, launch/teaser video, an
+  editorial / explainer / mini-documentary ("how X works", news-style narrated
+  video), or "banao ek ad/video" for an app like Soon or SharePoster. It encodes the
   working recipe (vertical 9:16 app-ad from screenshots/posters + animated text
   + CTA) and the hard-won gotchas (the GSAP centering bug, class=clip, timeline
   keys) so the video comes out clean in one pass. Reach for it before trying
@@ -139,11 +140,64 @@ Mirror the official `/product-launch-video`: 1) gather assets + `frame.md`
 static frames → 5) build the full multi-composition + polish. Multi-composition
 (4–8 scenes wired into one root timeline) beats one monolithic file.
 
+## Editorial / explainer videos (Vox-style) — the storyboard-driven 3-phase workflow
+For a *narrated, information-dense* video (explainer, mini-documentary, "how X
+works", news-style) — not a screenshot ad — use this proven flow (from HeyGen's
+"Vox-style video with HyperFrames + Claude Code" build). The insight that matters
+most: **inputs beat the tool.** The tool is only half the equation; the quality
+comes from the storyboard, the assets, and the narration you feed it. Better
+planning → dramatically better video, same workflow.
+
+**Project scaffold (all fed to Claude before any code):**
+- **`STORYBOARD.md` / direction file = the creative brief.** Story being told,
+  visual style, every scene, color palette, typography, and the *one key message*
+  the viewer should walk away with. This defines "what success looks like" before
+  a single line of code — it's the highest-leverage file.
+- **`CLAUDE.md` = source of truth.** Project rules, technical requirements, design
+  constraints, workflow instructions — so Claude decides consistently across scenes.
+- **`fonts/`** — load the **entire font family** for each face (all weights). Easier
+  than hand-picking; you'll only use a handful but having them all avoids friction.
+  (Their editorial look used 3 families, e.g. a grotesk sans + a serif display.)
+- **`assets/`** — gather **far more than you need**. "The goal is not to use more
+  assets, but to have enough options to choose from." A polished pass uses ~70% of
+  a big library across maps, charts, headlines, documents, photography.
+
+**The three phases (one prompt each):**
+1. **Foundation** — Claude reads the storyboard + direction, builds the *design
+   system* (typography scale, palette, motion rules) and creates **placeholder
+   scenes** for the whole video. No content yet — just a cohesive architecture so
+   scenes don't drift apart. Review the bare preview: hierarchy + motion feel right?
+2. **Story** — turn assets into fully built scenes following the storyboard's
+   per-scene structure. Rule to bake into the prompt: **"every visual explains
+   something, every animation communicates information — nothing exists just because
+   it looks cool."** End the prompt by asking Claude to **flag where the project is
+   weak** (missing/underdeveloped assets, visuals that don't support the narration).
+   That flag list *is* your quality-control checklist → review, iterate, improve.
+3. **Render (optional polish)** — source/generate SVG logos, add narration + music,
+   insert source citations, export. You already have a complete video after 1–2.
+
+**Motion language:** teach it explicitly from phase 1. Editorial/Vox motion is
+**intentional, measured, slightly choppy** — it communicates, it doesn't show off.
+
+**Level-up for depth:** upgrade `STORYBOARD.md` from ~7 flat scenes to **chapters
+with sub-scenes** (e.g. 7 chapters → 19 sub-scenes). Instead of 8–10s per idea, cut
+rapidly between supporting visuals → far more dynamic and information-dense. Pair it
+with a **narration script pre-aligned to the storyboard timing** (formatted for TTS).
+
+**Long builds:** when context gets long (around the 2nd auto-compact), write a
+**handoff file** (project state: decisions, progress, next steps) and start a fresh
+session so it picks up cleanly — avoids hallucinated/inconsistent output.
+
+HyperFrames here is the best free alternative to Remotion for programmatic video;
+Claude Code is the "production team" (organizes, writes scenes, builds animation
+logic), HyperFrames renders the system to MP4.
+
 ## Audio (optional)
 - **Music:** local `MusicGen` or add trending audio when posting the reel (simplest,
   best reach). Music-engine deps are heavy (torch) — usually skip and add on IG.
 - **Voiceover:** `/media-use` → free local **Kokoro** TTS (no key) or paid
-  **ElevenLabs**; both give word-level timestamps for caption sync.
+  **ElevenLabs**; both give word-level timestamps for caption sync. For an editorial
+  video, write the narration script *first* and align the storyboard timing to it.
 
 ## Known assets on this machine
 - **Soon** (iOS) App Store screenshots: `~/Desktop/soon-appstore-screens/` (1242×2688).
