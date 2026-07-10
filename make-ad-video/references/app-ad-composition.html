@@ -1,0 +1,108 @@
+<!doctype html>
+<!--
+  Vertical (9:16) app-ad starter for HyperFrames. Copy into a project's index.html.
+  - Put screenshots in media/ (s1..s3 = scene shots, s4 = CTA shot).
+  - Swap headlines / colors / CTA copy.
+  - Centering is done INSIDE GSAP (xPercent/yPercent) — NOT CSS transform — so the
+    ken-burns scale never knocks the image off-center (the #1 gotcha).
+  Build:  npm run check   then   npm run render
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0712; }
+      body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+      .scene { position: absolute; inset: 0; }
+      .content { position: absolute; inset: 0; }
+      .bg { position: absolute; inset: 0;
+        background: radial-gradient(120% 80% at 50% 22%, #35275c 0%, #1a1230 45%, #0a0712 100%); }
+      /* NOTE: no CSS transform here — GSAP owns centering via xPercent/yPercent */
+      .shot { position: absolute; left: 50%; top: 50%; height: 1330px;
+        border-radius: 40px; box-shadow: 0 40px 90px rgba(0,0,0,0.55); }
+      .headline { position: absolute; top: 108px; left: 0; width: 100%; text-align: center;
+        color: #fff; font-weight: 800; font-size: 66px; line-height: 1.12;
+        letter-spacing: -0.5px; text-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 60px; }
+      .footer { position: absolute; bottom: 96px; left: 0; width: 100%; text-align: center;
+        color: #c9b6ff; font-weight: 700; font-size: 40px; letter-spacing: 2px; }
+      /* CTA card: shot in the upper area, text stacked below — never overlapping */
+      .cta-shot { position: absolute; left: 50%; top: 70px; height: 1010px;
+        border-radius: 40px; box-shadow: 0 40px 90px rgba(0,0,0,0.55); }
+      .cta-title { position: absolute; top: 1190px; left: 0; width: 100%; text-align: center;
+        color: #fff; font-weight: 800; font-size: 122px; letter-spacing: -1px;
+        text-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+      .cta-sub { position: absolute; top: 1372px; left: 0; width: 100%; text-align: center;
+        color: #ffe0a0; font-weight: 700; font-size: 48px; }
+      .cta-badge { position: absolute; top: 1470px; left: 0; width: 100%; text-align: center;
+        color: #c9b6ff; font-weight: 700; font-size: 38px; letter-spacing: 1px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="14.7"
+         data-width="1080" data-height="1920">
+
+      <div class="clip scene" id="s1" data-start="0" data-duration="4" data-track-index="0">
+        <div class="content"><div class="bg"></div>
+          <img class="shot" src="media/s1.png" />
+          <div class="headline">Your hook —<br />line two.</div>
+          <div class="footer">· BrandName ·</div>
+        </div>
+      </div>
+
+      <div class="clip scene" id="s2" data-start="3.5" data-duration="4" data-track-index="1">
+        <div class="content"><div class="bg"></div>
+          <img class="shot" src="media/s2.png" />
+          <div class="headline">Feature two —<br />what it does.</div>
+          <div class="footer">· BrandName ·</div>
+        </div>
+      </div>
+
+      <div class="clip scene" id="s3" data-start="7" data-duration="4" data-track-index="0">
+        <div class="content"><div class="bg"></div>
+          <img class="shot" src="media/s3.png" />
+          <div class="headline">Feature three —<br />the payoff.</div>
+          <div class="footer">· BrandName ·</div>
+        </div>
+      </div>
+
+      <div class="clip scene" id="s4" data-start="10.5" data-duration="4.2" data-track-index="1">
+        <div class="content"><div class="bg"></div>
+          <img class="cta-shot" src="media/s4.png" />
+          <div class="cta-title">BrandName</div>
+          <div class="cta-sub">One-line value proposition</div>
+          <div class="cta-badge">Free on the App Store</div>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      function scene(sel, tIn, tOut, dur) {
+        tl.fromTo(sel + " .content", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, tIn);
+        // centering lives in the tween (xPercent/yPercent) so scale can't shift it
+        tl.fromTo(sel + " .shot", { scale: 1.0, xPercent: -50, yPercent: -50 },
+                                  { scale: 1.07, xPercent: -50, yPercent: -50, duration: dur, ease: "none" }, tIn);
+        tl.fromTo(sel + " .headline", { y: 44, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, tIn + 0.15);
+        if (tOut !== null) tl.to(sel + " .content", { opacity: 0, duration: 0.5, ease: "power2.in" }, tOut);
+      }
+      scene("#s1", 0, 3.5, 4);
+      scene("#s2", 3.5, 7.0, 4);
+      scene("#s3", 7.0, 10.5, 4);
+
+      // CTA scene
+      tl.fromTo("#s4 .content", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 10.5);
+      tl.fromTo("#s4 .cta-shot", { scale: 1.0, xPercent: -50 }, { scale: 1.05, xPercent: -50, duration: 4.2, ease: "none" }, 10.5);
+      tl.fromTo("#s4 .cta-title", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.6)" }, 10.9);
+      tl.fromTo("#s4 .cta-sub", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }, 11.3);
+      tl.fromTo("#s4 .cta-badge", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 11.6);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -12,6 +12,7 @@ optional `references/` files that Claude loads on demand.
 | Skill | What it does |
 |-------|--------------|
 | [`ship-ios-app`](ship-ios-app/) | Build and ship a brand-new iOS app entirely from the CLI (XcodeGen + xcodebuild, no Xcode GUI for coding) — brand/identity → project setup → device builds → AdMob → App Store Connect → submission → surviving App Review rejections (Guideline 2.1, the App Tracking Transparency prompt-timing bug, and every other trap that cost hours the first time). |
+| [`make-ad-video`](make-ad-video/) | Make a polished app promo / ad / launch video for **free**, locally, with HeyGen's open-source **HyperFrames** (HTML + GSAP → MP4) — no paid AI-video credits. Encodes the vertical-9:16 app-ad recipe (screenshots/posters + animated captions + CTA), a ready composition template, the design vocabulary, and the hard-won gotchas (the GSAP centering bug, `class="clip"`, timeline keys). |
 
 ## Install
 
