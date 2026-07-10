@@ -58,6 +58,30 @@ npm run render                        # -> renders/<name>.mp4 (~30s)
 - A full working starter is in **`references/app-ad-composition.html`** — copy
   it, swap media + copy, render.
 
+## Make it actually GOOD — the flow that lands (not just crossfades)
+A flat cut of images + fades reads "meh." This structure reads like a real ad:
+1. **Intro hook (~2.5s)** — a title card BEFORE the content: a scaling emblem
+   (logo / ॐ / icon) with a soft radial **glow**, the one-line hook, and a date/CTA
+   sub. Give the reel a reason to keep watching.
+2. **Showcase scenes** — give each a **different ken-burns** move (one zoom-in, one
+   pan-up, one pan-down) so it never feels static, plus a **cinematic vignette**
+   overlay — `radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(4,2,10,.72) 100%)` — for depth.
+3. **Vary the transitions** — don't fade every time. A **zoom-through** into the
+   finale (outgoing scene scales up + fades while the next reveals) is a punchy
+   hand-off; push-slide and blur-crossfade are others (see the animation skill's
+   `transitions/catalog.md`).
+4. **Dynamic CTA card** — the emblem does a slow **pulse** loop; text **staggers** in
+   (small → title → sub → free → button → handle); the button pops with `back.out`.
+   Center the button with a fixed `left` (not `translateX`) so GSAP scale can't shift it.
+- **Poster / carousel ad** (images that already carry their own text — festival
+  posters, quote cards): don't add text over them — show each on a **blurred-fill
+  background of itself** (`.pbg` = same image, `filter: blur(42px) brightness(.45)`,
+  `transform: scale(1.2)`) with the sharp image centered on top. Full working
+  example: **`references/carousel-ad-composition.html`**.
+- For richer motion, read the local **`hyperframes-animation`** skill:
+  `transitions/catalog.md`, `blueprints/` (titlecard-reveal, cta-morph-press,
+  kinetic-type-beats), `examples/*.html` (runnable ground truth).
+
 ## GOTCHAS — the ones that cost time (memorize)
 1. **The centering bug (screenshots shift right / get cut).** GSAP animating
    `scale` OVERRIDES a CSS `transform: translate(-50%,-50%)`, so a centered image
@@ -83,9 +107,23 @@ npm run render                        # -> renders/<name>.mp4 (~30s)
 7. **`content_overlap` warnings during the ~0.5s crossfade are expected** (two
    scenes share a zone while one fades out) — not errors; render is fine. Silence
    with `data-layout-allow-overlap` if desired.
-8. Fonts: use a **system stack** (`-apple-system,"Helvetica Neue",Arial`) or a
-   real `@font-face`; a bare Google-Fonts `<link>` may not load in the headless render.
-9. **Always `npm run check` after edits** and fix errors before rendering.
+8. **Fonts (esp. Devanagari / non-Latin):** the compiler only auto-embeds fonts in
+   its resolved list; any other `font-family` (e.g. "Kohinoor Devanagari", "Noto
+   Sans Devanagari", "Mukta") lints as an **error** (`font_family_without_font_face`).
+   **Fix:** declare it yourself with a system-local source, then use that family:
+   ```css
+   @font-face { font-family:"DevaHF";
+     src: local("Kohinoor Devanagari"), local("Devanagari Sangam MN"), local("Noto Sans Devanagari");
+     font-weight: 100 900; }
+   /* body { font-family:"DevaHF", -apple-system, Arial, sans-serif; } */
+   ```
+   The `local()` declaration alone satisfies the lint and renders the real system
+   font (Devanagari renders perfectly this way). A bare Google-Fonts `<link>` may
+   not load in the headless render.
+9. **Don't overlap two GSAP tweens on the same property of the same element** — the
+   linter flags `overlapping_gsap_tweens`. Sequence them: let the entrance tween
+   finish, then start a separate pulse/loop a beat later.
+10. **Always `npm run check` after edits** and fix errors before rendering.
 
 ## Design vocabulary (for polish)
 - **Timing:** fast 0.2s = energy · medium 0.4s = professional · slow 0.6s = luxury.
