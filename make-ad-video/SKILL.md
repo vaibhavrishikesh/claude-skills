@@ -209,6 +209,32 @@ image-to-video (Gemini Pro, 720×1280 9:16, ~10s, native ambient audio!) → ass
   drawtext shaping is unreliable for matras.
 - Ship two versions: one with baked music (WhatsApp/YT) and one ambient-only
   (Instagram — attach trending audio in-app for the reach boost).
+- **Veo motion-prompt gotcha (morphing):** asking for push-in/zoom or "petals
+  trembling" makes Veo REGENERATE subjects → flowers/objects morph and look AI-fake.
+  Fix: minimal-motion prompts — "keep X exactly as they are, almost still",
+  "static camera — no zoom, no camera movement", "do not change or morph X";
+  animate only environment (ripples, mist, light shimmer, flame flicker).
+  Less motion = more real. (Veo may still zoom a bit — check the END frames for
+  subject integrity before using.)
+
+## Themed multi-clip post ("सावन के तीन रूप" recipe)
+Single bare clips read thin; a THEME turns 3 clips into a designed post that
+still follows the viral formula. Structure (~29s, three 10s Veo clips, 0.5s
+crossfades in HyperFrames):
+- Persistent decorated frame: 4 gold-corner motifs + top kicker "॥ <theme> ॥"
+  flanked by marigolds (brand decoration kit PNGs).
+- Per scene: small roop-label ("पहला रूप") → big one-word title flanked by
+  matching motifs (diya/lotus) → ONE parallel-structure line
+  ("एक लोटा जल, सौ सुकून। / एक कमल, सच्चा अर्पण। / एक दीया, मन का उजाला।") →
+  small lotus divider. Parallel lines >> unrelated shayaris.
+- End card: dark radial scrim over the footage (essential — mandala/text is
+  unreadable on busy frames without it), golden mandala slowly rotating,
+  big "हर हर महादेव", small handle. End on the LIGHT scene (puja-kram: जल →
+  कमल → ज्योति) so the glow hands off to the end card.
+- HyperFrames notes: <video muted playsinline> + separate <audio id=...>
+  (audio needs an id or it renders SILENT); GSAP scene-exit fades need a
+  `tl.set` hard-kill after the fade (seek safety); overlay frames need
+  `data-layout-allow-occlusion` to pass the layout inspector.
 
 ## Audio (optional)
 - **Music:** local `MusicGen` or add trending audio when posting the reel (simplest,
