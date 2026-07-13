@@ -192,6 +192,24 @@ HyperFrames here is the best free alternative to Remotion for programmatic video
 Claude Code is the "production team" (organizes, writes scenes, builds animation
 logic), HyperFrames renders the system to MP4.
 
+## Veo (Gemini) footage pipeline — the "real motion" upgrade
+Static image + ken-burns reads as an AD; moving footage reads as a MOMENT and is
+what goes viral in devotional niches. Pipeline: Gemini image prompt → Veo
+image-to-video (Gemini Pro, 720×1280 9:16, ~10s, native ambient audio!) → assemble.
+- **Veo watermark (✦, bottom-right):** remove with
+  `delogo=x=548:y=1098:w=104:h=116` (for 720×1280) before upscaling to 1080×1920.
+- **Native ambient audio is gold** (water pouring, flames) — but when joining
+  multiple clips, their ambients sound like 3 different songs. Fix: `acrossfade`
+  the ambients into one smooth bed at LOW volume (~0.22) under ONE continuous
+  music track. Never concat ambients raw.
+- **Music must play to the very end** — fade out in the last ~0.8s only; an early
+  fade under an end-card feels like the music "left".
+- **Devanagari text overlays:** render with ImageMagick to a transparent PNG
+  (proven fonts: Kohinoor / Devanagari Sangam MN), then ffmpeg `overlay` — ffmpeg
+  drawtext shaping is unreliable for matras.
+- Ship two versions: one with baked music (WhatsApp/YT) and one ambient-only
+  (Instagram — attach trending audio in-app for the reach boost).
+
 ## Audio (optional)
 - **Music:** local `MusicGen` or add trending audio when posting the reel (simplest,
   best reach). Music-engine deps are heavy (torch) — usually skip and add on IG.
